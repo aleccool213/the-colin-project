@@ -1,0 +1,11 @@
+set up:
+-tweets will be scanned, save all of the ones with the proper regex
+-tweet regex
+	-TV COMPLETE: *name of tv* [*season*]: Complete
+	-TV WATCHING: Now Watching: *name of tv* [*season*]
+	-FILM COMPLETE: /cant really find any of this format/
+	-FILM WATCHING: Now Watching: *name of film* /no season or brackets/
+-tweets following this regex will be used to create new json files from omdb requests
+-store all of these json files on the server side
+-in cinema.html for example, show top 20 movies by poster, user can search and click on poster to go to a more detailed page
+-

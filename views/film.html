@@ -1,0 +1,39 @@
+<template name="film">
+  {{> cont}}
+</template>
+
+<template name="cont">
+	  <div class="container" align="center">
+      <h3>film</h3>
+
+      <div class="moviesearch" align="center">
+      {{> esInput index="movies" placeholder="Search..." }}
+  	  </div>
+      <br>
+
+      {{#esEach index="movies"}}
+          {{> samplePoster}}
+      {{/esEach}}
+
+      {{#ifEsInputIsEmpty index="movies"}}
+        {{#each movies}}
+          {{>  samplePoster}}
+        {{/each}}
+      {{/ifEsInputIsEmpty}}
+
+  	</div>
+
+</template>
+
+<template name="movie">
+  <p>{{title}}</p>
+</template>
+
+<template name="samplePoster" class="posterContainer">
+  <a href="/film/show/{{title}}">
+    <img src="{{location}}" id="poster">  
+  </a>
+</template>
+
+
+
