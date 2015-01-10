@@ -1,5 +1,5 @@
 Router.route('/', function () {
-  this.render('colinprojectgood');
+  this.render('colinproject');
 });
 
 Router.route('/thelegend/', function () {
