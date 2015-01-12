@@ -6,8 +6,8 @@ Router.route('/thelegend/', function () {
   this.render('about');
 });
 
-Router.route('/film/', function () {
-  this.render('film');
+Router.route('/television/', function () {
+  this.render('television');
 });
 
 
@@ -29,7 +29,7 @@ if (Meteor.isClient) {
 
 Router.route('/film/show/:title', function () {
   var film = Movies.findOne({title: this.params.title});
-  this.layout('showFilm',{
+  this.layout('showTitle',{
     data: {
       title: film.title,
       posterLocation: film.location

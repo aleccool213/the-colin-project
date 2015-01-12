@@ -1,22 +1,41 @@
 import json
 import re
 
+#global vars
+
+#dictionary[key=title, value=seasons array]
+titles = dict()
+
+#file holding all of shows with corresponding shows watched
+resultsComplete = open("/Users/alec/Github/colinproject/tweets/resultsComplete.txt", "w+")
+
+#file holding all of shows with corresponding shows currently watched/in limbo
+resultsCurrent =  open("/Users/alec/Github/colinproject/tweets/resultsCurrent.txt", "w+")
+
 #write to our movie/tv file if `text` matches
 def tweetParser( text ):
     #print(text)
-    #file2 = open("/Users/alec/Github/colinproject/tweets/result.txt", "w+")
-    currentlyWatching = re.match( r'Now Watching: (.*)', text)
-    tvComplete = re.match( r'(.*): Complete', text)
-    filmComplete = re.match( r'Now Watching: .*', text)
-    if currentlyWatching:
-        print('currently watching:' + currentlyWatching.group(1))
-    if tvComplete:
-        print('tv complete:' + tvComplete.group(1))
+    
+    currentlyWatching = re.match( r'Now Watching: (.*) \[Season (.*)\]', text)
+    complete = re.match( r'(.*) \[Season (.*)\]: Complete', text)
+    #if currentlyWatching:
+    #    print('currently watching (title): ' + currentlyWatching.group(1) + ', Season: ' + currentlyWatching.group(2))
+        #titles[currentlyWatching.group(1)].append(currentlyWatching.group(2))
+    if complete:
+        #print('tv complete (title): ' + complete.group(1) + ', Season: ' + complete.group(2))
+        try:
+            titles[complete.group(1)].append(complete.group(2)) 
+        except KeyError:
+            titles[complete.group(1)] = []
+            titles[complete.group(1)].append(complete.group(2))
+        #print(complete.group(1))
+        #print(titles[complete.group(1)])
     
 
     #file2.close()
 
 def jsonParser ( fileToParse ):
+    
     #set file pointer to second line for every file we open (twitter gave me these files this way)
     fileToParse.readline()
     #read in the rest of the file to a string
@@ -47,6 +66,13 @@ if __name__ == "__main__":
                 file1 = open("/Users/alec/Github/colinproject/tweets/" + str(year) + "_" + str(month) + ".js", "r")
                 #print("/Users/alec/Github/colinproject/tweets/" + str(year) + "_" + str(month) + ".js")
                 jsonParser(file1)
+
+    #write the results to file
+    for show in titles.keys():
+        resultsComplete.write(show + ': ')
+        resultsComplete.write(str(titles[show]))
+        resultsComplete.write('\n')
+    resultsComplete.close()
             
 
 
