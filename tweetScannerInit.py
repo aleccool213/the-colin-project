@@ -14,25 +14,20 @@ resultsCurrent =  open("/Users/alec/Github/colinproject/tweets/resultsCurrent.tx
 
 #write to our movie/tv file if `text` matches
 def tweetParser( text ):
-    #print(text)
-    
     currentlyWatching = re.match( r'Now Watching: (.*) \[Season (.*)\]', text)
     complete = re.match( r'(.*) \[Season (.*)\]: Complete', text)
-    #if currentlyWatching:
-    #    print('currently watching (title): ' + currentlyWatching.group(1) + ', Season: ' + currentlyWatching.group(2))
-        #titles[currentlyWatching.group(1)].append(currentlyWatching.group(2))
     if complete:
-        #print('tv complete (title): ' + complete.group(1) + ', Season: ' + complete.group(2))
         try:
-            titles[complete.group(1)].append(complete.group(2)) 
+            titles[complete.group(1)].append(int(complete.group(2))) 
         except KeyError:
             titles[complete.group(1)] = []
-            titles[complete.group(1)].append(complete.group(2))
-        #print(complete.group(1))
-        #print(titles[complete.group(1)])
+            titles[complete.group(1)].append(int(complete.group(2)))
+        #deal with different season values, eg. '5, Part 1' = 5.1
+        except ValueError:
+            temp = re.match( r'([0-9]), Part ([0-9])', complete.group(2))
+            tempNumber = float(temp.group(1) + '.' + temp.group(2))
+            titles[complete.group(1)].append(tempNumber)
     
-
-    #file2.close()
 
 def jsonParser ( fileToParse ):
     
@@ -42,8 +37,6 @@ def jsonParser ( fileToParse ):
     data = fileToParse.read().replace('\n', '')
     #convert to json format
     fileInJson = json.loads(data)
-    #print for good measure
-    #print(fileInJson)
     #grab the text of the actual tweets and put it into our function
     for i in fileInJson:
         tweetParser(i["text"])
@@ -66,6 +59,10 @@ if __name__ == "__main__":
                 file1 = open("/Users/alec/Github/colinproject/tweets/" + str(year) + "_" + str(month) + ".js", "r")
                 #print("/Users/alec/Github/colinproject/tweets/" + str(year) + "_" + str(month) + ".js")
                 jsonParser(file1)
+
+    #sort all of the seasons
+    for i in titles.keys():
+        titles[i] = sorted(titles[i])
 
     #write the results to file
     for show in titles.keys():

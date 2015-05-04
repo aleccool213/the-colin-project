@@ -1,0 +1,23 @@
+<template name="showTitle">
+  {{> titleInfo}}
+</template>
+
+<template name="titleInfo">
+	<div align="center">
+		<a style="text-decoration:underline" href="/television" id="backButton">back</a>
+
+		<h2> {{title}} </h2>
+		
+		<img src="{{posterLocation}}" id="titlePoster">
+		<h3 id="titleTextContent"> 
+			Years on air: {{year}} <br>
+			Rating: {{rating}} <br>
+			Released: {{released}} <br>
+			Genre: {{genre}} <br>
+			Awards: {{awards}} <br>
+			Plot: {{plot}} <br>
+			Seasons Colin has seen: {{seasons}} <br>
+			Colins review: {{colins_thoughts}} <br>
+		</h3>
+	</div>
+</template>

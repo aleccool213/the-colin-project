@@ -9,6 +9,7 @@
       <div class="moviesearch" align="center">
       {{> esInput index="movies" placeholder="Search..." }}
   	  </div>
+      
       <br>
 
       {{#esEach index="movies"}}
@@ -31,7 +32,7 @@
 
 <template name="samplePoster" class="posterContainer">
   <a href="/film/show/{{title}}">
-    <img src="{{location}}" id="poster">  
+    <img src="{{banner_location}}" id="poster">  
   </a>
 </template>
 
